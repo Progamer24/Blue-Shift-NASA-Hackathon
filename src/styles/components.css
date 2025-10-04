@@ -1,0 +1,124 @@
+/* Remove default margin and padding, ensure full viewport with no scroll */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scroll bars */
+  background: black;
+  font-family: 'Courier New', Courier, monospace;
+  color: #e0e0e0;
+}
+
+.star-background {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Navbar container */
+.navbar {
+  width: 100%;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none; /* no border */
+  color: #e0e0e0;
+  font-size: 1.1em;
+}
+
+/* Blue shift aligned left */
+.nav-item.left {
+  text-align: left;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Grouped items container for right aligned menu items */
+.nav-right {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+/* Each nav-item on right */
+.nav-right .nav-item {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.center-container {
+  position: fixed;
+  bottom: 40px;    /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px; /* control search box width */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+
+/* Searchbox styles (from SearchBar.css) */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 2px solid #aaa;
+  border-radius: 3px;
+  padding: 10px 20px;
+  min-width: 400px;
+  max-width: 600px;
+  width: 100%;
+  color: #e0e0e0;
+}
+
+.search-icon {
+  margin-right: 15px;
+  font-size: 1.2em;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 1em;
+  outline: none;
+  width: 100%;
+}
+.star-background:before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(2px 2px at 10px 10px, white, transparent),
+    radial-gradient(2px 2px at 40px 55px, white, transparent),
+    radial-gradient(2px 2px at 80px 30px, white, transparent),
+    radial-gradient(2px 2px at 120px 100px, white, transparent),
+    radial-gradient(2px 2px at 150px 75px, white, transparent),
+    radial-gradient(2px 2px at 190px 130px, white, transparent),
+    radial-gradient(2px 2px at 220px 45px, white, transparent),
+    radial-gradient(2px 2px at 260px 170px, white, transparent),
+    radial-gradient(2px 2px at 300px 90px, white, transparent),
+    radial-gradient(2px 2px at 350px 200px, white, transparent);
+  background-repeat: repeat;
+  background-size: 400px 400px; /* Controls the size of the repeating pattern */
+  animation: blink 3s infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+}
+
+
