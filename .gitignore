@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django  
+db.sqlite3
+*.log
+
+# Virtual environment
+venv/
+env/
+
+# Media
+media/
+tiles/
+
+# IDE
+.vscode/
+.idea/
+fresh-backend/
