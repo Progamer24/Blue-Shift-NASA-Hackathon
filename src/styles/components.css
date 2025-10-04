@@ -1,0 +1,172 @@
+/* Remove default margin and padding, ensure full viewport with no scroll */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scroll bars */
+  background: black;
+  font-family: 'Courier New', Courier, monospace;
+  color: #e0e0e0;
+}
+
+.star-background {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Navbar container */
+.navbar {
+  width: 100%;
+  padding: 30px 30px 15px 30px;
+  /*padding: 12px 30px;*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none; /* no border */
+  color: #e0e0e0;
+  font-size: 1.1em;
+}
+
+/* Blue shift aligned left */
+.nav-item.left {
+  text-align: left;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Grouped items container for right aligned menu items */
+.nav-right {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+/* Each nav-item on right */
+.nav-right .nav-item {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.center-container {
+  position: fixed;
+  bottom: 40px;    /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px; /* control search box width */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+
+/* Searchbox styles (from SearchBar.css) */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 2px solid #aaa;
+  border-radius: 3px;
+  padding: 10px 20px;
+  min-width: 400px;
+  max-width: 600px;
+  width: 100%;
+  color: #e0e0e0;
+}
+
+.search-icon {
+  margin-right: 15px;
+  font-size: 1.2em;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 1em;
+  outline: none;
+  width: 100%;
+}
+
+.star-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1250px;   /* screen width */
+  height: 630px;   /* screen height */
+  background-color: #000;
+  background-image:
+    radial-gradient(2px 2px at 115px 29px, #fff, transparent),
+    radial-gradient(3px 3px at 334px 214px, #fff, transparent),
+    radial-gradient(2px 2px at 942px 85px, #fff, transparent),
+    radial-gradient(3px 3px at 259px 615px, #fff, transparent),
+    radial-gradient(2px 2px at 1204px 57px, #fff, transparent),
+    radial-gradient(3px 3px at 371px 408px, #fff, transparent),
+    radial-gradient(2px 2px at 845px 302px, #fff, transparent),
+    radial-gradient(3px 3px at 79px 528px, #fff, transparent),
+    radial-gradient(2px 2px at 505px 265px, #fff, transparent),
+    radial-gradient(3px 3px at 982px 474px, #fff, transparent),
+    radial-gradient(2px 2px at 757px 174px, #fff, transparent),
+    radial-gradient(3px 3px at 322px 350px, #fff, transparent),
+    radial-gradient(2px 2px at 687px 299px, #fff, transparent),
+    radial-gradient(3px 3px at 1056px 624px, #fff, transparent),
+    radial-gradient(2px 2px at 41px 93px, #fff, transparent),
+    radial-gradient(3px 3px at 1121px 576px, #fff, transparent),
+    radial-gradient(2px 2px at 627px 418px, #fff, transparent),
+    radial-gradient(3px 3px at 221px 539px, #fff, transparent),
+    radial-gradient(2px 2px at 1099px 199px, #fff, transparent),
+    radial-gradient(3px 3px at 205px 330px, #fff, transparent),
+    radial-gradient(2px 2px at 472px 52px, #fff, transparent),
+    radial-gradient(3px 3px at 953px 527px, #fff, transparent),
+    radial-gradient(2px 2px at 218px 203px, #fff, transparent),
+    radial-gradient(3px 3px at 628px 156px, #fff, transparent),
+
+    /* 1px random smaller dots dispersed */
+    radial-gradient(1px 1px at 180px 110px, #fff, transparent),
+    radial-gradient(1px 1px at 460px 470px, #fff, transparent),
+    radial-gradient(1px 1px at 730px 200px, #fff, transparent),
+    radial-gradient(1px 1px at 900px 345px, #fff, transparent),
+    radial-gradient(1px 1px at 1230px 80px, #fff, transparent),
+    radial-gradient(1px 1px at 100px 480px, #fff, transparent),
+    radial-gradient(1px 1px at 360px 290px, #fff, transparent),
+    radial-gradient(1px 1px at 595px 125px, #fff, transparent),
+    radial-gradient(1px 1px at 670px 600px, #fff, transparent),
+    radial-gradient(1px 1px at 820px 420px, #fff, transparent),
+    radial-gradient(1px 1px at 300px 555px, #fff, transparent),
+    radial-gradient(1px 1px at 740px 90px, #fff, transparent),
+    radial-gradient(1px 1px at 120px 220px, #fff, transparent),
+    radial-gradient(1px 1px at 985px 150px, #fff, transparent),
+    radial-gradient(1px 1px at 450px 610px, #fff, transparent);
+
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  animation: blink 2s infinite alternate;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+
+
+
+
