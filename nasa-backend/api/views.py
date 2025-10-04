@@ -8,6 +8,43 @@ from .models import Dataset, Annotation, ImageMetadata, TileCache
 from .serializers import DatasetSerializer, AnnotationSerializer, ImageMetadataSerializer, TileCacheSerializer
 from .nasa_services import NASADataFetcher
 
+
+@api_view(['GET'])
+def search_nasa_images(request):
+    """
+    Search NASA images by keyword
+    GET /api/search/images/?q=mercury&limit=20
+    """
+    query = request.GET.get('q', '').strip()
+    limit = int(request.GET.get('limit', 20))
+    
+    if not query:
+        return Response({'error': 'Query parameter required'}, status=400)
+    
+    # Search service
+    search_service = NASAImageSearchService()
+    results = search_service.search_images(query, limit)
+    
+    return Response({
+        'query': query,
+        'count': len(results),
+        'results': results
+    })
+
+@api_view(['GET'])
+def get_image_details(request, nasa_id):
+    """
+    Get detailed information about a specific NASA image
+    GET /api/images/{nasa_id}/
+    """
+    try:
+        result = SearchResult.objects.get(nasa_id=nasa_id)
+        serializer = SearchResultSerializer(result)
+        return Response(serializer.data)
+    except SearchResult.DoesNotExist:
+        return Response({'error': 'Image not found'}, status=404)
+
+
 class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for NASA datasets
@@ -111,3 +148,71 @@ def get_tile(request, dataset, z, x, y, ext):
         return FileResponse(open(tile_path, 'rb'), content_type=content_type)
     
     raise Http404("Tile not found")
+
+
+from .nasa_services import NASAImageSearchService
+from .models import NASASearchResult
+
+@api_view(['GET'])
+def search_nasa_images(request):
+    """
+    Search NASA images by keyword
+    GET /api/search/nasa/?q=mercury&limit=20
+    """
+    query = request.GET.get('q', '').strip()
+    limit = min(int(request.GET.get('limit', 20)), 50)  # Max 50 results
+    
+    if not query:
+        return Response({
+            'error': 'Query parameter "q" is required'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    if len(query) < 2:
+        return Response({
+            'error': 'Query must be at least 2 characters'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Use our NASA search service
+    search_service = NASAImageSearchService()
+    results = search_service.search_images(query, limit)
+    
+    return Response({
+        'query': query,
+        'count': len(results),
+        'results': results
+    })
+
+@api_view(['GET'])
+def get_nasa_image_details(request, nasa_id):
+    """
+    Get detailed info about a specific NASA image
+    GET /api/nasa/image/{nasa_id}/
+    """
+    try:
+        result = NASASearchResult.objects.get(nasa_id=nasa_id)
+        search_service = NASAImageSearchService()
+        data = search_service.result_to_dict(result)
+        return Response(data)
+    except NASASearchResult.DoesNotExist:
+        return Response({
+            'error': 'Image not found'
+        }, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_popular_searches(request):
+    """
+    Get most popular search terms
+    GET /api/search/popular/
+    """
+    from .models import SearchQuery
+    popular = SearchQuery.objects.order_by('-search_count')[:10]
+    
+    return Response({
+        'popular_searches': [
+            {
+                'query': sq.query,
+                'count': sq.search_count,
+                'last_searched': sq.last_searched
+            } for sq in popular
+        ]
+    })

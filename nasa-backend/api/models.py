@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 class Dataset(models.Model):
     """
@@ -67,3 +69,65 @@ class TileCache(models.Model):
     zoom_level = models.IntegerField()
     tiles_count = models.IntegerField()  # Number of tiles at this zoom level
     generation_date = models.DateTimeField(auto_now_add=True)
+
+# Add to api/models.py (at the end)
+
+class SearchResult(models.Model):
+    """Simple NASA search result model"""
+    query = models.CharField(max_length=200)
+    nasa_id = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=500)
+    description = models.TextField()
+    image_url = models.URLField()
+    date_created = models.DateTimeField(null=True, blank=True)
+    keywords = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    
+class SearchCache(models.Model):
+    """
+    Cache popular searches to improve performance
+    """
+    query = models.CharField(max_length=200, unique=True)
+    result_count = models.IntegerField()
+    last_updated = models.DateTimeField(auto_now=True)
+    results = models.ManyToManyField(SearchResult)
+
+class NASASearchResult(models.Model):
+    """
+    Store NASA image search results with metadata
+    """
+    nasa_id = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=500)
+    description = models.TextField()
+    keywords = models.JSONField(default=list)
+    
+    # Image URLs
+    image_url = models.URLField()
+    thumbnail_url = models.URLField(blank=True)
+    
+    # Metadata
+    center = models.CharField(max_length=100, blank=True)  # NASA center
+    date_created = models.DateTimeField(null=True, blank=True)
+    media_type = models.CharField(max_length=50, default='image')
+    
+    # Search info
+    search_query = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
+
+class SearchQuery(models.Model):
+    """
+    Track popular searches and cache results
+    """
+    query = models.CharField(max_length=200, unique=True)
+    search_count = models.IntegerField(default=1)
+    last_searched = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.query} ({self.search_count} searches)"
