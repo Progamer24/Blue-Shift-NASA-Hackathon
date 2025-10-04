@@ -7,9 +7,15 @@ const Home = () => (
     <nav className="navbar">
       <span className="nav-item left">Blue shift</span>
       <div className="nav-right">
+<<<<<<< HEAD
         <span className="nav-item">Galaxy |</span>
         <span className="nav-item">Solar system</span>
         <span className="nav-item">| Earth</span>
+=======
+        <span className="nav-item">galaxy</span>
+        <span className="nav-item">Solar system</span>
+        <span className="nav-item">earth</span>
+>>>>>>> c69abe53c6959fa8793c5ab03e60da718bc98188
       </div>
     </nav>
     <div className="center-container">
